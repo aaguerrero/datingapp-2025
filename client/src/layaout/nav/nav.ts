@@ -20,14 +20,9 @@ export class Nav {
   protected creds : any = {}
   
   login() {
-
-  console.log('CREDS COMPLETO:', this.creds);
-  console.log('EMAIL:', this.creds.email);
-  console.log('PASSWORD:', this.creds.password);
-
-
     this.accountService.login(this.creds).subscribe({
-      next: result =>{
+      next: () =>{
+        this.toast.success('Welcome back!', 3000);
         this.router.navigateByUrl('/members');
         this.creds={};
       } ,
