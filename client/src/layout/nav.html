@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between p-3 w-full fixed top-0 z-50 bg-black">
+<header class="flex items-center justify-between p-3 w-full fixed top-0 z-50 bg-linear-to-r from-primary to-black">
    <div class="flex items-center px-10 gap-6">
         <a routerLink="/" class="flex item-center gap-3 max-h-16 text-white border-r-white border-r-2 pr-6">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -38,7 +38,7 @@
             </div>
         
         } @else {
-         <form #loginForm="ngForm" (ngSubmit)="login()" class="flex items-center gap-3">
+         <form #loginForm="ngForm" (ngSubmit)="login()" class="flex items-center gap-4 mr-4">
                 <input
                    [(ngModel)]="creds.email"
                     name="email"
@@ -51,7 +51,7 @@
                     type="password"
                     class="input" 
                     placeholder="Password">
-                <button class="btn">Login</button>
+                <button class="px-4 py-2 rounded-md bg-white text-blue-600 border border-blue-600 hover:bg-blue-50">Login</button>
         </form>   
         }
 </div>
