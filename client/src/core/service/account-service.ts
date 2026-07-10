@@ -1,10 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject,Injectable,signal } from '@angular/core';
 import { tap } from 'rxjs';
 
 import { User } from '../../types/user';
 import { RegisterCreds } from '../../types/register-creds';
 import { LoginCreds } from '../../types/login-creds';
+import { environment } from '../../environments/environment.development';
+import { Member } from '../../types/member';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +14,14 @@ import { LoginCreds } from '../../types/login-creds';
 export class AccountService {
 
   private http = inject(HttpClient);
+  
   currentUser = signal<User | null >(null);
 
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
+
+  
+
+  
 
   Register(creds:RegisterCreds){
     return this.http.post<User>(this.baseUrl + 'account/register',creds).pipe(
