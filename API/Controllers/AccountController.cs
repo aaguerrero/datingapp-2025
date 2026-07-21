@@ -42,8 +42,7 @@ public class AccountController(AppDbContext context, ITokenService tokenService)
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDTO loginDto)
     {
-        Console.WriteLine($"Email recibido: '{loginDto.Email}'");
-        Console.WriteLine($"Password recibido: '{loginDto.Password}'");
+        
 
         var user = await context.Users.FirstOrDefaultAsync(x => x.Email.ToLower()== loginDto.Email.ToLower());
 
