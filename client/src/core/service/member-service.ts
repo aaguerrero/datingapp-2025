@@ -12,14 +12,13 @@ private baseUrl = environment.apiUrl;
 
 
   getMembers() {
-    return this.http.get<Member[]>(this.baseUrl + 'members');
+    return this.http.get<Member[]>(`${this.baseUrl}/members`);
   }
 
-  getMember(id: string){
-    
-    return this.http.get<Member>(this.baseUrl + '/members' + id);
-    }
+  getMember(id: string) {
+    return this.http.get<Member>(`${this.baseUrl}/members/${id}`);
   }
+}
 
 
 

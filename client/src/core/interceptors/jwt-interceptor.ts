@@ -7,6 +7,8 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   const user = accountService.currentUser();
 
+  console.log(user);
+
   if (user) {
     req = req.clone({
       setHeaders:{

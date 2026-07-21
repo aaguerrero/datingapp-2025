@@ -42,13 +42,19 @@ public class AccountController(AppDbContext context, ITokenService tokenService)
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDTO loginDto)
     {
+        Console.WriteLine($"Email recibido: '{loginDto.Email}'");
+        Console.WriteLine($"Password recibido: '{loginDto.Password}'");
+
         var user = await context.Users.FirstOrDefaultAsync(x => x.Email.ToLower()== loginDto.Email.ToLower());
 
-        if (user == null) return Unauthorized("Invalid email Adress");
+        
 
+        if (user == null) return Unauthorized("Invalid email Adress");
+       
         using var hmac = new HMACSHA512(user.PasswordSalt) ;
 
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+       
 
         for (var i = 0; i < computedHash.Length; i++)
         {
