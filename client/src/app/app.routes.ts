@@ -9,6 +9,9 @@ import { TestErrors } from '../features/test-errors/test-errors';
 import { NotFound } from '../shared/errors/not-found/not-found';
 import { ServerError } from '../shared/errors/server-error/server-error';
 import { MemberProfile } from '../features/members/member-profile/member-profile';
+import { MemberPhotos } from '../features/members/member-photos/member-photos';
+import { MemberMessages } from '../features/members/member-messages/member-messages';
+import { memberResolver } from '../features/members/member-resolver';
 
 
 
@@ -23,12 +26,14 @@ export const routes: Routes = [
           { path: 'members', component: MemberList,},
           {
                    path: 'members/:id', 
+                   resolve:{member: memberResolver},
+                   runGuardsAndResolvers:'always',
                    component: MemberDetailed,
                    children : [
                     {path: '', redirectTo: 'profile',pathMatch: 'full'},
                     {path: 'profile', component: MemberProfile, title: 'Profile'},
-                    {path: 'photos', component: MemberProfile, title: 'photos'},
-                    {path: 'messages', component: MemberProfile, title: 'Messages'}
+                    {path: 'photos', component: MemberPhotos, title: 'photos'},
+                    {path: 'messages', component: MemberMessages, title: 'Messages'}
                    ]
           },
         
