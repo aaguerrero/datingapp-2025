@@ -5,6 +5,7 @@ import { JsonPipe } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ToastService } from '../core/service/toast-service';
 import { themes } from '../layout/theme';
+import { BusyService } from '../core/service/busy-service';
 
 
 
@@ -15,9 +16,10 @@ import { themes } from '../layout/theme';
   styleUrl: './nav.css',
 })
 export class Nav implements OnInit {
-  protected accountService= inject(AccountService)
+  protected accountService= inject(AccountService);
+  protected busyService=inject(BusyService);
   private router = inject(Router);
-  private toast  = inject(ToastService)
+  private toast  = inject(ToastService);
   protected creds : any = {}
   protected selectedTheme = signal<string>(localStorage.getItem('theme') || 'light')
   protected themes = themes; 
