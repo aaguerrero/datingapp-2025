@@ -30,23 +30,48 @@ export class MemberPhotos implements OnInit {
     }
   }
 
-  onUploadImage(file: File){
-    this.loading.set(true);
-    this.memberService.uploadPhoto(file).subscribe({
-      next: photo => {
-        this.memberService.editMode.set(false);
-        this.loading.set(false);
-        this.photos.update(photos=> [...photos, photo])
-      },
-      error: error => {
-        console.log('Error uploading image: ', error);
-        this.loading.set(false);
+ 
+onUploadImage(file: File) {
+  this.loading.set(true);
+
+  this.memberService.uploadPhoto(file).subscribe({
+    next: photo => {
+      this.memberService.editMode.set(false);
+      this.loading.set(false);
+
+      this.photos.update(photos => [...photos, photo]);
+
+      /*Comprobar si existe una imagen principal*/
+
+      if (!this.memberService.member()?.imageUrl) {  
+        this.setMainLocalPhoto(photo);
+      }
+    },
+    error: error => {
+      console.log('Error uploading image: ', error);
+      this.loading.set(false);
+    }
+  });
+}
+
+  setMainPhoto(photo: Photo) {
+   this.memberService.setMainPhoto(photo).subscribe({
+    next: () => {
+      this.setMainLocalPhoto(photo)
+    }
+   })
+  }
+
+  deletePhoto(photoId:number){
+    this.memberService.deletePhoto(photoId).subscribe({
+      next : () => {
+        this.photos.update(photos => photos.filter(x => x.id != photoId))
       }
     })
   }
 
-  setMainPhoto(photo: Photo) {
-    this.memberService.setMainPhoto(photo).subscribe({
+  private setMainLocalPhoto(photo:Photo){
+     this.memberService.setMainPhoto(photo).subscribe({
       next:() => {
           const currentUser = this.accountService.currentUser();
           if (currentUser) currentUser.imageUrl = photo.url;
@@ -56,14 +81,6 @@ export class MemberPhotos implements OnInit {
             imageUrl: photo.url
           }) as Member)
       } 
-    })
-  }
-
-  deletePhoto(photoId:number){
-    this.memberService.deletePhoto(photoId).subscribe({
-      next : () => {
-        this.photos.update(photos => photos.filter(x => x.id != photoId))
-      }
     })
   }
 }

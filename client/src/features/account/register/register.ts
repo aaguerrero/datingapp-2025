@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModu
 import { RegisterCreds } from '../../../types/register-creds';
 import { output } from '@angular/core';
 import { AccountService } from '../../../core/service/account-service';
-import { JsonPipe } from '@angular/common';
 import { TextInput } from "../../../shared/text-input/text-input";
 import { Router } from '@angular/router';
 
@@ -12,7 +11,7 @@ import { Router } from '@angular/router';
   selector: 'app-register',
   standalone: true,
 
-  imports: [ReactiveFormsModule, JsonPipe, TextInput],
+  imports: [ReactiveFormsModule, TextInput],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
