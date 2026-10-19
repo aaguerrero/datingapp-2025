@@ -9,6 +9,7 @@ using API.DTOs;
 using System.Security.Claims;
 using API.Extensions;
 using System.Xml;
+using API.Helpers;
 
 namespace API.Controllers;
 
@@ -19,10 +20,11 @@ namespace API.Controllers;
             IPhotoService photoService) : BaseApiController
     {
         [HttpGet]
-        public  async Task<ActionResult<IReadOnlyList<Member>>> GetMembers()
+        public  async Task<ActionResult<IReadOnlyList<Member>>> GetMembers(
+            [FromQuery] PaginParams paginParams)
         {
         
-            return Ok(await memberRepository.GetMembersAsync());
+            return Ok(await memberRepository.GetMembersAsync(paginParams));
         }
         
         

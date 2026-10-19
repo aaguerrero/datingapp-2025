@@ -482,3 +482,7 @@ $RECYCLE.BIN/
 *.swp
 API/appsettings.json
 API/dating.db
+
+# SQLite temporary files
+*.db-shm
+*.db-wal
