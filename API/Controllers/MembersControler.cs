@@ -21,10 +21,10 @@ namespace API.Controllers;
     {
         [HttpGet]
         public  async Task<ActionResult<IReadOnlyList<Member>>> GetMembers(
-            [FromQuery] PaginParams paginParams)
+            [FromQuery] MemberParams memberParams)
         {
-        
-            return Ok(await memberRepository.GetMembersAsync(paginParams));
+            memberParams.CurrentMemberId = User.GetMemberId();
+            return Ok(await memberRepository.GetMembersAsync(memberParams));
         }
         
         
