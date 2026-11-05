@@ -1,4 +1,3 @@
-
 import { Component, inject, OnInit, signal, ViewChild} from '@angular/core';
 import { MemberService } from '../../../core/service/member-service';
 import { Member, MemberParams } from '../../../types/member';
@@ -21,13 +20,11 @@ export class MemberList implements OnInit {
   protected paginatedMembers = signal<PaginatedResult<Member> | null>(null);
 
   protected memberParams = new MemberParams();
-
+  private updatedParams = new MemberParams();
  
   ngOnInit(): void {
     this.loadMembers();
   }
-
-
 
 loadMembers() {
    this.memberService.getMembers(this.memberParams).subscribe({
@@ -59,13 +56,17 @@ loadMembers() {
 onFilterChange(data: MemberParams) {
   console.log('Filters received from modal:', data);
 
-  this.memberParams.gender = data.gender;
+  this.memberParams ={...data};
+
+  /*this.memberParams.gender = data.gender;
   this.memberParams.minAge = data.minAge;
   this.memberParams.maxAge = data.maxAge;
-  this.memberParams.orderBy = data.orderBy;
+  this.memberParams.orderBy = data.orderBy; */
 
   // Reiniciamos la paginación
   this.memberParams.pageNumber = 1;
+
+  this.updatedParams ={...data};
 
   // Consultamos nuevamente la API
   this.loadMembers();
@@ -75,6 +76,40 @@ onFilterChange(data: MemberParams) {
     this.memberParams = new MemberParams();
     this.loadMembers();
   }
+
+get displayMessage(): string {
+
+  const defaultParams = new MemberParams();
+
+  const filters: string[] = [];
+
+  // Gender
+  if (this.updatedParams.gender) {
+    filters.push(this.memberParams.gender + 's');
+  } else {
+    filters.push('Males, Females');
+  }
+
+  // Age range
+  if (
+    this.updatedParams.minAge !== defaultParams.minAge ||
+    this.updatedParams.maxAge !== defaultParams.maxAge
+  ) {
+    filters.push(
+      `ages ${this.updatedParams.minAge}-${this.updatedParams.maxAge}`
+    );
+  }
+
+  // Sorting
+  filters.push(
+    this.updatedParams.orderBy === 'lastActive'
+      ? 'Recently active'
+      : 'Newest members'
+  );
+
+  return filters.length >0 ? `Selected: ${filters.join(' | ')}` : 'All members'
+}
+
 }
 
 
